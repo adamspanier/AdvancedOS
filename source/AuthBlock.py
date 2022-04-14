@@ -1,53 +1,53 @@
 #!/usr/bin/env python3
 
-from AuthNode import AuthNode
+from source.AuthNode import AuthNode
+from source.Host import Host
 import hashlib
 import time
 
 class AuthBlock:
 
-	def __init__(self, host):
+	def __init__(self, host: Host):
 		self.head = AuthNode(host)
 		
-	def addNode(self, host):
-		newNode = AuthNode(host)
-		lastNode = self.getLastNode()
-		lastNode.setNext(newNode)
-		lastNode.setHash(self.__calcHash(lastNode.getKey(), newNode.getKey()))
+	def add_node(self, host: Host):
+		new_node = AuthNode(host)
+		last_node = self.get_last_node()
+		last_node.set_next(new_node)
+		last_node.set_hash(self.__calc_hash(last_node.get_key(), new_node.get_key()))
 			
-	def getLastNode(self):
-		curNode = self.head
-		while(curNode.getNext() != None):
-			curNode = curNode.getNext()
-		return curNode
+	def get_last_node(self) -> AuthNode:
+		cur_node = self.head
+		while(cur_node.get_next() != None):
+			cur_node = cur_node.get_next()
+		return cur_node
 		
-	def __calcHash(self, lastKey, newKey):
-		encodeLast = str(lastKey).encode()
-		lastHash = hashlib.sha256(encodeLast).hexdigest()
-		concat = lastHash + str(newKey)
-		encodeConcat = concat.encode()
-		fullHash = hashlib.sha256(encodeConcat).hexdigest()
-		return fullHash
+	def __calc_hash(self, last_key, new_key) -> str:
+		encode_last = str(last_key).encode()
+		last_hash = hashlib.sha256(encode_last).hexdigest()
+		concat = last_hash + str(new_key)
+		encode_concat = concat.encode()
+		full_hash = hashlib.sha256(encode_concat).hexdigest()
+		return full_hash
 		
-	def printChain(self):
-		curNode = self.head
+	def print_chain(self):
+		cur_node = self.head
 		print("\n-----PRINTING-----\n")
-		while(curNode.getNext() != None):
-			print(curNode.toString())
-			curNode = curNode.getNext()
-		print(curNode.toString())
+		while(cur_node != None):
+			print(cur_node.to_string())
+			cur_node = cur_node.get_next()
 		
-	def validate(self, host):
-		key = host.getKey()
-		hostId = host.getHostId()
+	def validate(self, host) -> bool:
+		key = host.get_key()
+		host_id = host.get_host_id()
 		valid = False
-		curNode = self.head
-		while(curNode.getNext() != None):
-			curKey = curNode.getKey()
-			curId = curNode.getId()
-			if(curKey == key and curId == hostId):
+		cur_node = self.head
+		while(cur_node != None):
+			cur_key = cur_node.get_key()
+			cur_id = cur_node.get_id()
+			if(cur_key == key and cur_id == host_id):
 				valid = True
-			curNode = curNode.getNext()
+			cur_node = cur_node.get_next()
 		return valid
 	
 	

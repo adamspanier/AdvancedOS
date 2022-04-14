@@ -43,12 +43,14 @@ def main():
         dist_time.append(time.time() - start_time)
 
     # Plotting the graph for comparison
-    plt.plot(np.arange(1, 20, dtype=int), np.array(central_times))
-    plt.plot(np.arange(1, 20, dtype=int), np.array(dist_time))
+    x_range = np.arange(1, 20, dtype=int)
+    plt.plot(x_range, np.array(central_times))
+    plt.plot(x_range, np.array(dist_time))
+    plt.xticks(np.arange(0, (x_range.max() + 1), 1))
     plt.legend(['Centralized', 'Distributed'])
     plt.xlabel('No. of hosts')
     plt.ylabel('Time (s)')
-    plt.title('Centralized vs. distributed zero trust architecture')
+    plt.title('Centralized vs. distributed zero trust architecture response time')
     plt.show()
 
 

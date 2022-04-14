@@ -54,6 +54,9 @@ class Policy:
 	def toString(self):
 		info = "The begin time is " + str(self.begin) + " and the end time is " + str(self.end) + "."
 		return info
+
+	def getPolicy(self):
+		pass
 		
 		
 

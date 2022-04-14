@@ -23,7 +23,7 @@ def main():
         for i in range(t):
             new_host = Host(host_policy, f'h{i}')
             hosts.append(new_host)
-            central_block.addNode(new_host)
+            central_block.add_node(new_host)
             print(f'h{i} added to the block chain')
 
         start_time = time.time()

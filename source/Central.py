@@ -7,17 +7,18 @@ import numpy as np
 
 
 def main():
+    # Creating a central policy engine
     central_policy = Policy("12:00", "15:00")
     central_host = Host(central_policy, "central")
-
     central_block = AuthBlock(central_host)
 
+    # Creating random hosts
     host_policy = Policy("12:00", "15:00")
     hosts = []
 
-    times = []
-
-    for t in range(5, 20):
+    # Generating multiple requests and calculating the total time
+    central_times = []
+    for t in range(1, 20):
 
         for i in range(t):
             new_host = Host(host_policy, f'h{i}')
@@ -30,11 +31,24 @@ def main():
         for i in range(t):
             print(f'Validating h{i}; result: {central_block.validate(hosts[i])}')
 
-        times.append(time.time() - start_time)
+        central_times.append(time.time() - start_time)
 
-    print(len(times))
+    # Simulating distributed system where each host validates single time
+    dist_time = []
+    for t in range(1, 20):
+        start_time = time.time()
+        new_host = Host(host_policy, f'h{t}')
+        print(f'h{t} added to the block chain')
+        print(f'Validating h{t}; result: {central_block.validate(new_host)}')
+        dist_time.append(time.time() - start_time)
 
-    plt.plot(np.arange(5, 20), np.array(times))
+    # Plotting the graph for comparison
+    plt.plot(np.arange(1, 20, dtype=int), np.array(central_times))
+    plt.plot(np.arange(1, 20, dtype=int), np.array(dist_time))
+    plt.legend(['Centralized', 'Distributed'])
+    plt.xlabel('No. of hosts')
+    plt.ylabel('Time (s)')
+    plt.title('Centralized vs. distributed zero trust architecture')
     plt.show()
 
 

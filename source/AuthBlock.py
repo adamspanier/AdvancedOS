@@ -16,7 +16,7 @@ class AuthBlock:
 		last_node.set_next(new_node)
 		last_node.set_hash(self.__calc_hash(last_node.get_key(), new_node.get_key()))
 			
-	def get_last_node(self) -> AuthNode:
+	def get_head_node(self) -> AuthNode:
 		cur_node = self.head
 		while(cur_node.get_next() != None):
 			cur_node = cur_node.get_next()
